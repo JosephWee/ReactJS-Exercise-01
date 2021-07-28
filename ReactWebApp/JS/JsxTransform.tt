@@ -1,0 +1,92 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\AdvancedStringBuilder.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\Antlr3.Runtime.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\JavaScriptEngineSwitcher.ChakraCore.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\JavaScriptEngineSwitcher.Core.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\JSPool.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\Microsoft.Web.Infrastructure.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\Newtonsoft.Json.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\React.Core.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\React.Web.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\React.Web.Mvc4.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\ReactWebApp.dll" #>
+<#@ assembly name="System" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Buffers.dll" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="System.Configuration" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.DataSetExtensions" #>
+<#@ assembly name="System.Drawing" #>
+<#@ assembly name="System.EnterpriseServices" #>
+<#@ assembly name="System.Net.Http" #>
+<#@ assembly name="System.Net.Http.WebRequest" #>
+<#@ assembly name="System.Runtime.Caching" #>
+<#@ assembly name="System.Web" #>
+<#@ assembly name="System.Web.Abstractions" #>
+<#@ assembly name="System.Web.ApplicationServices" #>
+<#@ assembly name="System.Web.Entity" #>
+<#@ assembly name="System.Web.Extensions" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.Helpers.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.Mvc.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.Optimization.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.Razor.dll" #>
+<#@ assembly name="System.Web.Routing" #>
+<#@ assembly name="System.Web.Services" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.WebPages.Deployment.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.WebPages.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\System.Web.WebPages.Razor.dll" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\WebActivatorEx.dll" #>
+<#@ assembly name="$(SolutionDir)\ReactWebApp\bin\WebGrease.dll" #>
+<#@ import namespace="JavaScriptEngineSwitcher.ChakraCore" #>
+<#@ import namespace="JavaScriptEngineSwitcher.Core" #>
+<#@ import namespace="React" #>
+<#@ import namespace="React.Web" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Web" #>
+<#@ import namespace="System.Web.Mvc" #>
+<#@ import namespace="System.Web.Optimization" #>
+<#@ import namespace="System.Web.Routing" #>
+<#@ output extension=".txt" #>
+<#
+	// Find a path within the same project as the text template:
+	//Attempt to Transform JSX files to JS files (with equivalent React.createElement calls) was unsuccessful
+    //For more information please see:
+    //https://reactjs.net/tutorials/aspnet4.html
+    //https://babeljs.io/setup#installation
+    //https://docs.microsoft.com/en-us/visualstudio/modeling/writing-a-t4-text-template?view=vs-2019
+
+	//string myPath = this.Host.ResolvePath("JsxTransform.tt");
+	FileInfo templateFile = new FileInfo(Host.TemplateFile);
+	DirectoryInfo templateDirectory = templateFile.Directory;
+	string jsxPath = Path.Combine(templateDirectory.Parent.FullName, "JSX");
+	string[] jsxFileNames = Directory.GetFiles(jsxPath, "*.jsx");
+
+	var babel = React.ReactEnvironment.Current.Babel;
+	foreach (string jsxFileName in jsxFileNames)
+	{
+	    FileInfo jsxFileInfo = new FileInfo(jsxFileName);
+	    string jsFileName = jsxFileInfo.Name.Substring(0, jsxFileInfo.Name.Length - jsxFileInfo.Extension.Length) + ".js";
+
+		string jsxContent = File.ReadAllText(jsxFileInfo.FullName);
+
+		string jsContent = babel.Transform(jsxContent);
+
+		SaveFile(templateDirectory.FullName, jsFileName, jsContent);
+	}
+#>
+<#+
+public void SaveFile(string folder, string fileName, string content)
+{
+    string filePath = Path.Combine(folder, fileName);
+	File.WriteAllText(filePath, content);
+}
+#>
