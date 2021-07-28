@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -21,11 +22,19 @@ namespace ReactWebApp
         /// </summary>
         protected void Application_Start()
         {
+            //List<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            //for (int a = 0; a < assemblies.Count; a++)
+            //{
+            //    Assembly assembly = assemblies[a];
+            //    string assemblyName = assembly.FullName;
+            //    Console.WriteLine(assemblyName);
+            //}
+
             //AreaRegistration.RegisterAllAreas();
-            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
-            JsEngineSwitcherConfig.Configure(JsEngineSwitcher.Current);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //JsEngineSwitcherConfig.Configure(JsEngineSwitcher.Current);
         }
     }
 }

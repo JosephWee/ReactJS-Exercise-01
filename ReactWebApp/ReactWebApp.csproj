@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props')" />
+  <Import Project="..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -147,23 +149,20 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\JsEngineSwitcherConfig.cs" />
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Index.html" />
+    <Content Include="Views\Default\Index.cshtml" />
     <None Include="JSX\SimpleApp.jsx" />
-    <Content Include="JS\JsxTransform.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JsxTransform.txt</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -185,11 +184,13 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Default\NavTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="JS\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +234,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.9.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
