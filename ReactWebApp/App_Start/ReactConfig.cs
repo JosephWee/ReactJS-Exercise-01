@@ -1,6 +1,11 @@
 using React;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Core;
+using System.Collections.Generic;
+using System.Reflection;
+using System;
+using System.Linq;
+using System.IO;
 //using JavaScriptEngineSwitcher.Jint;
 //using JavaScriptEngineSwitcher.Jurassic;
 //using JavaScriptEngineSwitcher.Msie;
@@ -25,7 +30,7 @@ namespace ReactWebApp
             // See http://reactjs.net/ for more information. Example:
 
             ReactSiteConfiguration.Configuration
-                .AddScript("~/JSX/SimpleApp.jsx");
+                .AddScript("~/JSX/{jsxFile}.jsx");
 
             // If you use an external build too (for example, Babel, Webpack,
             // Browserify or Gulp), you can improve performance by disabling 
