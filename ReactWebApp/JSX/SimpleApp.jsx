@@ -76,6 +76,7 @@
 
 //For more information please see:
 //https://www.pluralsight.com/guides/how-to-use-jquery-inside-a-react-component
+//https://www.pluralsight.com/guides/how-to-get-selected-value-from-a-mapped-select-input-in-react
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields
 ReactDOM.render(
