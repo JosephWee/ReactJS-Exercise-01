@@ -3,7 +3,7 @@
     constructor(props) {
         super(props);
         this.state = {
-            jQuery: props.jQuery
+            TeleportAPI: props.TeleportAPI
         };
     }
 
@@ -11,36 +11,21 @@
 
         let selectOptions;
 
-        this.state.jQuery.ajax({
-            method: "GET",
-            url: "https://api.teleport.org/api/countries/",
-            data: null,
-            async: false
-        }).done(function (data) {
+        let country_items = this.state.TeleportAPI.GetCountries();
 
-            //if (console) console.log(data);
-
-            let links = data["_links"];
-            //if (console) console.log(links);
-
-            //let linksKeys = Object.keys(links);
-            //if (console) console.log(linksKeys);
-
-            let country_items = links["country:items"];
-            //if (console) console.log(country_items);
-
+        if (Array.isArray(country_items) && country_items.length > 0) {
             selectOptions = country_items.map((c) =>
                 <option key={c.href} value={c.href}>{c.name}</option>
             );
-        });
+        }
 
         this.setState({ selectOptions: selectOptions });
     }
 
     selectCountryChangeHandler(onChangeEvent) {
-        let selectCountry = this.state.jQuery(onChangeEvent.target);
-        let selectedCountry = selectCountry.val();
-        //if (console) console.log(selectedCountry);
+        
+        let selectedCountry = onChangeEvent.target.value;
+        if (console) console.log(selectedCountry);
 
         if (/placeholder/gi.test(selectedCountry)) {
             //if (console) console.log("Country not selected");
@@ -49,46 +34,24 @@
             //if (console) console.log("Country selected");
 
             let selectRegionElement = <span>No regions returned from Teleport</span>;
-            
-            let url =
-                selectedCountry.endsWith("/")
-                    ? selectedCountry + "admin1_divisions/"
-                    : selectedCountry + "/admin1_divisions/";
 
-            this.state.jQuery.ajax({
-                method: "GET",
-                url: url,
-                data: null,
-                async: false
-            }).done(function (data) {
+            let a1_items = this.state.TeleportAPI.GetAdmin1_Divisions(selectedCountry);
 
-                //if (console) console.log(data);
+            if (Array.isArray(a1_items) && a1_items.length > 0) {
 
-                let links = data["_links"];
-                //if (console) console.log(links);
+                let list_of_regions = a1_items.map((c) =>
+                    <option key={c.href} value={c.href}>{c.name}</option>
+                );
 
-                ////let linksKeys = Object.keys(links);
-                ////if (console) console.log(linksKeys);
-
-                let a1_items = links["a1:items"];
-                //if (console) console.log(a1_items);
-
-                if (Array.isArray(a1_items) && a1_items.length > 0) {
-
-                    let list_of_regions = a1_items.map((c) =>
-                        <option key={c.href} value={c.href}>{c.name}</option>
-                    );
-
-                    selectRegionElement =
-                        (<div>
-                            <span className="SimpleApp">Region</span>
-                            <select className="SimpleApp">
-                                <option>Please select a Region</option>
-                                {list_of_regions}
-                            </select>
-                        </div>);
-                }
-            });
+                selectRegionElement =
+                    (<div>
+                        <span className="SimpleApp">Region</span>
+                        <select className="SimpleApp">
+                            <option>Please select a Region</option>
+                            {list_of_regions}
+                        </select>
+                    </div>);
+            }
 
             this.setState({ selectRegion: selectRegionElement });
         }
@@ -113,7 +76,9 @@
 
 //For more information please see:
 //https://www.pluralsight.com/guides/how-to-use-jquery-inside-a-react-component
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields
 ReactDOM.render(
-        React.createElement(SimpleApp, { jQuery: jQuery }),
+        React.createElement(SimpleApp, { TeleportAPI: new TeleportAPIHelper() }),
         document.getElementById('root')
     );
