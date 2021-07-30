@@ -33,7 +33,13 @@
         } else {
             //if (console) console.log("Country selected");
 
-            let selectRegionElement = <span>No regions returned from Teleport</span>;
+            let selectRegionElement =
+                (
+                    <div>
+                        <span className="SimpleApp">Region</span>
+                        <span>No regions returned from Teleport</span>
+                    </div>
+                );
 
             let a1_items = this.state.TeleportAPI.GetAdmin1_Divisions(selectedCountry);
 
@@ -74,12 +80,18 @@
     }
 }
 
+SimpleApp.propTypes = {
+    TeleportAPI: PropTypes.instanceOf(TeleportAPIHelper)
+};
+
 //For more information please see:
 //https://www.pluralsight.com/guides/how-to-use-jquery-inside-a-react-component
 //https://www.pluralsight.com/guides/how-to-get-selected-value-from-a-mapped-select-input-in-react
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields
+//https://reactjs.org/docs/typechecking-with-proptypes.html
+//https://www.npmjs.com/package/prop-types
 ReactDOM.render(
-        React.createElement(SimpleApp, { TeleportAPI: new TeleportAPIHelper() }),
+    React.createElement(SimpleApp, { TeleportAPI: new TeleportAPIHelper1() }),
         document.getElementById('root')
     );

@@ -15,6 +15,7 @@ namespace ReactWebApp
             bundles.Add(
                 new ScriptBundle("~/bundles/JavaScriptHelpers")
                 .Include("~/JS/TeleportAPIHelper.js")
+                .Include("~/JS/TeleportAPIHelper1.js")
             );
 
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
